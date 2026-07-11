@@ -11,14 +11,14 @@ export interface LeagueNoticeData {
   noticeGroup: string;
   noticeType: string;
   requesterCategories: string[];
-  reasonTokenSets: string[][];
+  reasonCandidates: string[];
   monsterTypes: string[];
 }
 
 export interface CivilianNoticeData {
   requestType: string;
   requesterCandidates: string[];
-  reasonTokenSets: string[][];
+  reasonCandidates: string[];
   monsterTypes: string[];
 }
 

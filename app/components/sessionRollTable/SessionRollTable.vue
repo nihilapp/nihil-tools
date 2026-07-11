@@ -3,7 +3,7 @@ import { computed, ref } from 'vue';
 import { cva } from 'class-variance-authority';
 
 import UiButton from '~/components/ui/UiButton.vue';
-import { getLeagueNoticeDataByTab, getLeagueRequesterCandidates, leagueNoticeTabData, sessionRollTableData } from '~/data/session-roll-table.data';
+import { getLeagueNoticeDataByTab, getLeagueNoticeReasonCandidates, getLeagueRequesterCandidates, leagueNoticeTabData, sessionRollTableData } from '~/data/session-roll-table.data';
 import type { CivilianNoticeData, LeagueNoticeData, LeagueNoticeTabId } from '~/data/session-roll-table.types';
 import { cn } from '~/utils/cn';
 
@@ -52,12 +52,30 @@ function selectRandomItem<T>(items: T[]): T {
   return items[Math.floor(Math.random() * items.length)]!;
 }
 
+function selectRandomItems<T>(items: T[], count: number): T[] {
+  const candidates = [
+    ...items,
+  ];
+  const selected: T[] = [
+  ];
+
+  while (selected.length < count && candidates.length > 0) {
+    selected.push(candidates.splice(Math.floor(Math.random() * candidates.length), 1)[0]!);
+  }
+
+  return selected;
+}
+
+function selectReasonCandidates(items: string[]): string[] {
+  return selectRandomItems(items, 1 + Math.floor(Math.random() * 2));
+}
+
 function createLeagueSession(notice: LeagueNoticeData): GeneratedLeagueSession {
   return {
     category: 'league',
     monsterTypes: notice.monsterTypes,
     notice,
-    reasonTokens: selectRandomItem(notice.reasonTokenSets),
+    reasonTokens: selectReasonCandidates(getLeagueNoticeReasonCandidates(notice)),
     requester: selectRandomItem(getLeagueRequesterCandidates(notice.requesterCategories)),
     terrain: selectRandomItem(sessionRollTableData.terrains),
     theme: selectRandomItem(sessionRollTableData.themes),
@@ -69,7 +87,7 @@ function createCivilianSession(notice: CivilianNoticeData): GeneratedCivilianSes
     category: 'civilian',
     monsterTypes: notice.monsterTypes,
     notice,
-    reasonTokens: selectRandomItem(notice.reasonTokenSets),
+    reasonTokens: selectReasonCandidates(notice.reasonCandidates),
     requester: selectRandomItem(notice.requesterCandidates),
     terrain: selectRandomItem(sessionRollTableData.terrains),
     theme: selectRandomItem(sessionRollTableData.themes),
@@ -287,6 +305,7 @@ function onResetSession() {
             <span
               v-for="token in generatedSession.reasonTokens"
               :key="token"
+              data-role="reason-candidate"
               class="rounded-2 bg-canvas-soft px-2 py-1 text-sm font-600 text-ink"
             >
               {{ token }}

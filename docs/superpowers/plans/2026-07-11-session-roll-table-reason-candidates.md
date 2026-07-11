@@ -1,6 +1,6 @@
 # Session Roll Table Reason Candidates Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Replace sentence-fragment reason data with source-grounded 1–2 reason candidates for all 97 session-roll-table request types.
 
@@ -31,7 +31,7 @@
 - Produces `leagueNoticeReasonCandidatesByGroup: Record<string, string[]>` and `getLeagueNoticeReasonCandidates(notice: LeagueNoticeData): string[]`.
 - Changes `LeagueNoticeData.reasonTokenSets` and `CivilianNoticeData.reasonTokenSets` to `reasonCandidates: string[]`.
 
-- [ ] **Step 1: Write failing pool-contract tests**
+- [x] **Step 1: Write failing pool-contract tests**
 
 ```ts
 expect(getLeagueNoticeReasonCandidates(getLeagueNoticeDataByTab('all')[0]!)).toEqual(expect.arrayContaining([
@@ -42,9 +42,9 @@ expect(getLeagueNoticeReasonCandidates(notice)).toHaveLength(expect.any(Number))
 expect(new Set(getLeagueNoticeReasonCandidates(notice)).size).toBe(getLeagueNoticeReasonCandidates(notice).length);
 ```
 
-- [ ] **Step 2: Run `pnpm vitest run test/session-roll-table.data.test.ts` and verify the new contract fails.**
+- [x] **Step 2: Run `pnpm vitest run test/session-roll-table.data.test.ts` and verify the new contract fails.**
 
-- [ ] **Step 3: Add all 17 source-grounded group pools with at least 20 candidates each.**
+- [x] **Step 3: Add all 17 source-grounded group pools with at least 20 candidates each.**
 
 ```ts
 export const leagueNoticeReasonCandidatesByGroup: Record<string, string[]> = {
@@ -60,7 +60,7 @@ export function getLeagueNoticeReasonCandidates(notice: LeagueNoticeData): strin
 }
 ```
 
-- [ ] **Step 4: Run the focused data test and verify it passes.**
+- [x] **Step 4: Run the focused data test and verify it passes.**
 
 ### Task 2: Replace the 85 league and 12 civilian candidate arrays
 
@@ -73,7 +73,7 @@ export function getLeagueNoticeReasonCandidates(notice: LeagueNoticeData): strin
 - Consumes `reasonCandidates: string[]` from the revised types.
 - Produces source-grounded specific candidate pools: 12 or more candidates per league type and 30 or more per civilian type.
 
-- [ ] **Step 1: Add failing coverage for all pools.**
+- [x] **Step 1: Add failing coverage for all pools.**
 
 ```ts
 for (const notice of getLeagueNoticeDataByTab('all')) {
@@ -84,13 +84,13 @@ for (const notice of sessionRollTableData.civilianNotices) {
 }
 ```
 
-- [ ] **Step 2: Run the focused data test and verify it fails because the old field is still present.**
+- [x] **Step 2: Run the focused data test and verify it fails because the old field is still present.**
 
-- [ ] **Step 3: Replace every `reasonTokenSets` field.**
+- [x] **Step 3: Replace every `reasonTokenSets` field.**
 
 Each array must contain purpose-oriented candidates (for example, `알파 개체 추적` includes `우두머리 흔적`, `무리 지휘`, `영역 이동`, `행동 변화`; `토템 가디언 레이드` includes `토템 수호`, `약점 관측`, `핵 회수`, `못 파괴`). Use the reference document’s stated objective for every league type; use the TSV only to validate that all 85 current group/type records remain covered.
 
-- [ ] **Step 4: Run the focused data test and verify every one of 97 pools meets its minimum.**
+- [x] **Step 4: Run the focused data test and verify every one of 97 pools meets its minimum.**
 
 ### Task 3: Generate one or two displayed reasons
 
@@ -102,7 +102,7 @@ Each array must contain purpose-oriented candidates (for example, `알파 개체
 - Consumes `getLeagueNoticeReasonCandidates(notice)` and `notice.reasonCandidates`.
 - Produces `GeneratedSession.reasonTokens: string[]` with one or two unique strings.
 
-- [ ] **Step 1: Add deterministic tests by mocking `Math.random`.**
+- [x] **Step 1: Add deterministic tests by mocking `Math.random`.**
 
 ```ts
 expect(reasonTokens).toHaveLength(1);
@@ -110,9 +110,9 @@ expect(reasonTokens).toHaveLength(2);
 expect(new Set(reasonTokens).size).toBe(reasonTokens.length);
 ```
 
-- [ ] **Step 2: Run `pnpm vitest run test/session-roll-table.test.ts` and verify the assertions fail.**
+- [x] **Step 2: Run `pnpm vitest run test/session-roll-table.test.ts` and verify the assertions fail.**
 
-- [ ] **Step 3: Add `selectRandomItems<T>(items: T[], count: number): T[]` and choose `1 + Math.floor(Math.random() * 2)` candidates.**
+- [x] **Step 3: Add `selectRandomItems<T>(items: T[], count: number): T[]` and choose `1 + Math.floor(Math.random() * 2)` candidates.**
 
 ```ts
 function selectRandomItems<T>(items: T[], count: number): T[] {
@@ -125,7 +125,7 @@ function selectRandomItems<T>(items: T[], count: number): T[] {
 }
 ```
 
-- [ ] **Step 4: Run the focused component test and verify it passes.**
+- [x] **Step 4: Run the focused component test and verify it passes.**
 
 ### Task 4: Remove obsolete inventory and verify the complete change
 
@@ -133,7 +133,7 @@ function selectRandomItems<T>(items: T[], count: number): T[] {
 - Delete: `docs/session-roll-table-reasons.md`
 - Test: `test/session-roll-table.data.test.ts`, `test/session-roll-table.test.ts`, `test/session-roll-table-page.test.ts`
 
-- [ ] **Step 1: Delete the raw-token inventory because it describes the replaced model.**
-- [ ] **Step 2: Run `pnpm vitest run test/session-roll-table.data.test.ts test/session-roll-table.test.ts test/session-roll-table-page.test.ts`.**
-- [ ] **Step 3: Run `pnpm exec vue-tsc --build --noEmit` and verify that the former `reasonTokenSets` errors are absent.**
-- [ ] **Step 4: Commit with `2026 0711 기능: 세션 롤 테이블 사유 후보 재설계`.**
+- [x] **Step 1: Delete the raw-token inventory because it describes the replaced model.**
+- [x] **Step 2: Run `pnpm vitest run test/session-roll-table.data.test.ts test/session-roll-table.test.ts test/session-roll-table-page.test.ts`.**
+- [x] **Step 3: Run `pnpm exec vue-tsc --build --noEmit` and verify that the former `reasonTokenSets` errors are absent.**
+- [x] **Step 4: Commit with `2026 0711 기능: 세션 롤 테이블 사유 후보 재설계`.**

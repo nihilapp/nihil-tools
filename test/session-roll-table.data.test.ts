@@ -47,7 +47,25 @@ describe('sessionRollTableData', () => {
 
     expect(candidates).toContain('인명 구조');
     expect(candidates).toContain('생존자 확인');
-    expect(candidates).toHaveLength(expect.any(Number));
+    expect(candidates.length).toBeGreaterThanOrEqual(30);
     expect(new Set(candidates).size).toBe(candidates.length);
+  });
+
+  it('provides at least thirty distinct reason candidates for every notice', () => {
+    for (const notice of getLeagueNoticeDataByTab('all')) {
+      const candidates = getLeagueNoticeReasonCandidates(notice);
+
+      expect('reasonCandidates' in notice).toBe(true);
+      expect('reasonTokenSets' in notice).toBe(false);
+      expect(candidates.length).toBeGreaterThanOrEqual(30);
+      expect(new Set(candidates).size).toBe(candidates.length);
+    }
+
+    for (const notice of sessionRollTableData.civilianNotices) {
+      expect('reasonCandidates' in notice).toBe(true);
+      expect('reasonTokenSets' in notice).toBe(false);
+      expect(notice.reasonCandidates).toHaveLength(30);
+      expect(new Set(notice.reasonCandidates).size).toBe(notice.reasonCandidates.length);
+    }
   });
 });

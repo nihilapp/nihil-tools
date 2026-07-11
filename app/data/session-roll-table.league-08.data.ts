@@ -1,4 +1,5 @@
 import type { LeagueNoticeData } from '~/data/session-roll-table.types';
+import { createReasonCandidates } from '~/data/session-roll-table.reason-candidates.data';
 
 export const leagueNoticeDataPart08: LeagueNoticeData[] = [
   {
@@ -13,32 +14,7 @@ export const leagueNoticeDataPart08: LeagueNoticeData[] = [
       'dungeon_containment',
       'arcane_research',
     ],
-    'reasonTokenSets':  [
-      '토템',
-      '가디언',
-      '약점',
-      '관측',
-      '레이드',
-      '유인',
-      '경로',
-      '수호',
-      '반응',
-      '돌파',
-      '토템',
-      '가디언',
-      '제압전',
-      '부정한',
-      '핵',
-      '회수',
-      '엄호',
-      '못',
-      '파괴',
-      '작전',
-      '엄호',
-      '안개',
-      '소산',
-      '검증',
-    ],
+    'reasonCandidates':  createReasonCandidates('토템 가디언 레이드'),
     'monsterTypes':  [
       '구조체',
       '괴수',

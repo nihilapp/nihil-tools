@@ -8,6 +8,7 @@ import { leagueNoticeDataPart06 } from '~/data/session-roll-table.league-06.data
 import { leagueNoticeDataPart07 } from '~/data/session-roll-table.league-07.data';
 import { leagueNoticeDataPart08 } from '~/data/session-roll-table.league-08.data';
 import { leagueRequesterData } from '~/data/session-roll-table.requesters.data';
+import { getLeagueNoticeReasonCandidates } from '~/data/session-roll-table.reason-candidates.data';
 import { monsterTypeData, terrainData, themeData } from '~/data/session-roll-table.environment.data';
 import type { LeagueNoticeData, LeagueNoticeTabData, LeagueNoticeTabId } from '~/data/session-roll-table.types';
 
@@ -44,6 +45,8 @@ export const sessionRollTableData = {
   terrains: terrainData,
   themes: themeData,
 };
+
+export { getLeagueNoticeReasonCandidates };
 
 export function getLeagueNoticeDataByTab(tabId: LeagueNoticeTabId): LeagueNoticeData[] {
   if (tabId === 'resolver-hunter') {
