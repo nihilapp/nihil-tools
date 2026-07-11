@@ -1,0 +1,75 @@
+# Connector Rules
+
+이 문서는 「{명사}에 잠긴 {지역}」처럼 명사와 연결어의 궁합이 중요한 패턴을 정리합니다.
+
+핵심 원칙은 “패턴을 먼저 고르고, 그 패턴이 허용하는 명사 슬롯에서만 명사를 뽑는다”입니다.
+
+## {명사}에 잠긴 {지역}
+
+- Slot: `immersion_media_for_에_잠긴`
+- Required semantics: 액체, 안개/연무, 빛/어둠, 날씨, 기체, 분위기/정서, 기억/꿈처럼 공간을 덮는 추상물
+- Good examples: 안개에 잠긴 도시, 침묵에 잠긴 늪, 달빛에 잠긴 호수
+- Bad examples: 왕관에 잠긴 숲, 칼날에 잠긴 평원
+
+## {명사}에 물든 {지역}
+
+- Slot: `stain_media_for_에_물든`
+- Required semantics: 색, 피/재/녹, 빛, 오염, 정서/저주처럼 색조를 부여하는 추상물
+- Good examples: 피에 물든 전장, 노을에 물든 해안, 녹에 물든 성채
+- Bad examples: 관문에 물든 늪, 왕좌에 물든 강
+
+## {명사}에 삼켜진 {지역}
+
+- Slot: `devouring_force_for_에_삼켜진`
+- Required semantics: 거대한 자연력, 침식/오염, 어둠/안개, 전쟁/재앙, 심연적 공간
+- Good examples: 어둠에 삼켜진 숲, 해일에 삼켜진 항구, 망각에 삼켜진 폐허
+- Bad examples: 꽃에 삼켜진 성채, 왕관에 삼켜진 호수
+
+## {명사} 아래의 {지역}
+
+- Slot: `overhead_or_hierarchy_for_아래의`
+- Required semantics: 위에 있는 물체/천체, 지배 권위, 거대 구조물, 수직 기준점
+- Good examples: 하늘 아래의 평원, 왕좌 아래의 지하도시, 세계수 아래의 성소
+- Bad examples: 비밀 아래의 숲, 비명 아래의 강
+
+## {명사} 너머의 {지역}
+
+- Slot: `boundary_for_너머의`
+- Required semantics: 경계, 장벽, 건너야 하는 지형, 시야를 막는 현상, 차원적 문턱
+- Good examples: 산맥 너머의 왕국, 안개 너머의 폐허, 해협 너머의 섬
+- Bad examples: 분노 너머의 항구, 칼날 너머의 늪
+
+## {명사} 사이의 {지역}
+
+- Slot: `plural_landmark_for_사이의`
+- Required semantics: 복수/군집 지형, 두 경계 사이, 반복 구조물, 쌍을 이룰 수 있는 대상
+- Good examples: 산맥 사이의 고원, 두 강 사이의 도시, 탑 사이의 광장
+- Bad examples: 새벽 사이의 늪, 왕관 사이의 사막
+
+## {명사} 끝의 {지역}
+
+- Slot: `terminal_axis_for_끝의`
+- Required semantics: 길/강/해안처럼 축을 가진 대상, 세계/시간/기억 같은 은유적 축, 경계의 말단
+- Good examples: 순례길 끝의 성소, 세계 끝의 바다, 강 끝의 항구
+- Bad examples: 독기 끝의 도시, 왕관 끝의 숲
+
+## {명사} 없는 {지역}
+
+- Slot: `absence_object_for_없는`
+- Required semantics: 있어야 할 정체성/자원/권위/소리/빛/생명
+- Good examples: 이름 없는 숲, 왕 없는 도시, 빛 없는 성소
+- Bad examples: 폭풍 없는 늪, 포자 없는 산맥
+
+## {명사}을/를 잃은 {지역}
+
+- Slot: `lost_object_for_을를_잃은`
+- Required semantics: 소유물, 정체성, 통치자, 기억, 자연 요소, 신성/마법 기반
+- Good examples: 왕을 잃은 도시, 이름을 잃은 폐허, 빛을 잃은 신전
+- Bad examples: 폭우를 잃은 도시, 낙뢰를 잃은 숲
+
+## {명사}을/를 기다리는 {지역}
+
+- Slot: `awaited_object_for_을를_기다리는`
+- Required semantics: 시간/계절, 귀환할 존재, 예언/심판/구원, 재앙/축제 같은 예정 사건
+- Good examples: 새벽을 기다리는 항구, 왕을 기다리는 성채, 심판을 기다리는 성소
+- Bad examples: 녹을 기다리는 계곡, 쇠창살을 기다리는 호수

@@ -18,7 +18,7 @@ function createDatabase() {
   const postgresClient =
     globalForDatabase.postgresClient ??
     postgres(databaseUrl, {
-      prepare: false,
+    	prepare: false,
     });
 
   const db = globalForDatabase.drizzleDatabase ?? drizzle(postgresClient);

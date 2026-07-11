@@ -1,0 +1,15 @@
+{
+  "valid": true,
+  "issues": [],
+  "csv_file_count": 7,
+  "total_rows": 435,
+  "row_counts": {
+    "01_origin_context.csv": 15,
+    "02_major_type.csv": 14,
+    "03_subtype.csv": 274,
+    "04_size.csv": 6,
+    "05_group_structure.csv": 21,
+    "06_behavior.csv": 18,
+    "07_combat_style.csv": 87
+  }
+}

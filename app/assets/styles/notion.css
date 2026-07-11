@@ -1,0 +1,18 @@
+@theme {
+  --color-canvas: #ffffff;
+  --color-canvas-soft: #f6f5f4;
+  --color-surface: #ffffff;
+  --color-ink: #000000;
+  --color-ink-secondary: #31302e;
+  --color-ink-muted: #615d59;
+  --color-ink-faint: #a39e98;
+  --color-hairline: #e6e6e6;
+  --color-primary: #0075de;
+  --color-primary-active: #005bab;
+  --color-on-primary: #ffffff;
+  --color-focus: #0075de;
+  --color-danger: #c43825;
+  --color-success: #1aae39;
+  --shadow-surface: 0 1px 2px rgb(0 0 0 / 0.04);
+  --shadow-overlay: 0 12px 32px rgb(0 0 0 / 0.12);
+}

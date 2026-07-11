@@ -1,0 +1,71 @@
+{
+  "dataset_name": "monster-roll-table-lite",
+  "version": "1.0.0",
+  "encoding": "UTF-8 without BOM",
+  "purpose": "몬스터 아이디어가 필요할 때 빠르게 무작위 결과를 만드는 경량 데이터셋",
+  "concept_count": 7,
+  "table_count": 7,
+  "row_count": 435,
+  "tables": {
+    "01_origin_context.csv": 15,
+    "02_major_type.csv": 14,
+    "03_subtype.csv": 274,
+    "04_size.csv": 6,
+    "05_group_structure.csv": 21,
+    "06_behavior.csv": 18,
+    "07_combat_style.csv": 87
+  },
+  "selection_rules": {
+    "01_origin_context.csv": {
+      "select": 1,
+      "use_weight": true
+    },
+    "02_major_type.csv": {
+      "select": 1,
+      "use_weight": true
+    },
+    "03_subtype.csv": {
+      "select": 1,
+      "filter": "선택된 major_type_id와 같은 행만 사용",
+      "use_weight": true
+    },
+    "04_size.csv": {
+      "select": 1,
+      "use_weight": true
+    },
+    "05_group_structure.csv": {
+      "select": 1,
+      "use_weight": true
+    },
+    "06_behavior.csv": {
+      "select_min": 1,
+      "select_max": 2,
+      "deduplicate": true,
+      "use_weight": true
+    },
+    "07_combat_style.csv": {
+      "select_min": 1,
+      "select_max": 2,
+      "deduplicate": true,
+      "use_weight": true
+    }
+  },
+  "display_order": [
+    "출현 맥락",
+    "몬스터 대분류",
+    "몬스터 세부 분류",
+    "크기",
+    "집단 구조",
+    "행동",
+    "전투 방식"
+  ],
+  "removed_concepts": [
+    "현장 상태",
+    "이동",
+    "감각",
+    "흔적",
+    "위험 징후",
+    "드랍",
+    "자원"
+  ]
+}

@@ -13,6 +13,14 @@ export default defineNuxtConfig({
     '~/assets/styles/tailwind.css',
   ],
   vite: {
+    optimizeDeps: {
+      include: [
+        '@iconify/vue',
+        'class-variance-authority',
+        'clsx',
+        'tailwind-merge',
+      ],
+    },
     plugins: [
       tailwindcss(),
     ],

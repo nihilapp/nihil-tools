@@ -1,0 +1,7 @@
+size_id,size_ko,size_en,description,weight
+tiny,초소형,Tiny,손바닥에서 소동물 크기,5
+small,소형,Small,아이 또는 작은 짐승 크기,15
+medium,중형,Medium,인간·늑대·표준 괴물 크기,35
+large,대형,Large,말·곰·오거급 크기,25
+huge,거대형,Huge,건물 일부를 가릴 수 있는 크기,15
+gargantuan,초거대형,Gargantuan,지형처럼 인식될 수 있는 크기,5

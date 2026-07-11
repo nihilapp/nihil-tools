@@ -1,0 +1,15 @@
+major_type_id,type_ko,type_en,definition,weight
+aberration,변이체,Aberration,자연 법칙과 어긋난 기괴한 존재,7
+beast,야수,Beast,자연 생태계에 속하는 짐승,15
+celestial,천상체,Celestial,상위 차원이나 신성 질서와 연결된 존재,5
+construct,구조체,Construct,제작되었거나 마법적으로 조립된 존재,8
+dragon,드래곤,Dragon,용혈 또는 용종 계열 존재,6
+elemental,원소체,Elemental,원소적 힘으로 구성된 존재,7
+fey,요정,Fey,요정계적 변덕과 자연 마법을 지닌 존재,7
+fiend,악마체,Fiend,하위 차원·타락·악의 본질과 연결된 존재,8
+giant,거인,Giant,거인 혈통 또는 거대 인간형 계열 존재,6
+humanoid,인간형,Humanoid,사회와 도구 사용 능력을 지닌 인간형 존재,9
+monstrosity,괴수,Monstrosity,자연 생태를 벗어난 비정상 생물형 괴물,8
+ooze,점액체,Ooze,형태가 불안정한 점액성 생물,4
+plant,식물체,Plant,식물 또는 균류 기반 생명체,4
+undead,언데드,Undead,죽음 이후 부정한 힘으로 움직이는 존재,6

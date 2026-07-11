@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "./colors.css";
+@import "./notion.css";
 @import "./size/dvh.css";
 @import "./size/dvw.css";
 @import "./size/radius.css";
@@ -61,7 +62,7 @@
   }
 
   body {
-    @apply bg-black-100!;
+    @apply bg-canvas-soft text-ink;
   }
 
   button {
