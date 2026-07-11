@@ -145,8 +145,9 @@ function onResetSession() {
     </header>
 
     <article class="rounded-2 border border-hairline bg-surface p-3">
-      <div class="flex flex-wrap gap-2">
+      <div class="flex gap-2">
         <UiButton
+          class="flex-1"
           data-category="league"
           :variant="requestCategory === 'league' ? 'primary' : 'secondary'"
           @click="onSelectRequestCategory('league')"
@@ -154,6 +155,7 @@ function onResetSession() {
           연맹 의뢰
         </UiButton>
         <UiButton
+          class="flex-1"
           data-category="civilian"
           :variant="requestCategory === 'civilian' ? 'primary' : 'secondary'"
           @click="onSelectRequestCategory('civilian')"
@@ -164,36 +166,40 @@ function onResetSession() {
 
       <div
         v-if="requestCategory === 'league'"
-        class="mt-3 flex flex-wrap gap-2 border-t border-hairline pt-3"
+        class="mt-3 flex gap-2 border-t border-hairline pt-3"
       >
         <UiButton
           v-for="tab in leagueNoticeTabData"
           :key="tab.id"
           :data-tab="tab.id"
+          class="flex-1"
           size="sm"
-          :variant="leagueNoticeTab === tab.id ? 'outline' : 'ghost'"
+          :variant="leagueNoticeTab === tab.id ? 'outline' : 'secondary'"
           @click="onSelectLeagueNoticeTab(tab.id)"
         >
           {{ tab.label }}
         </UiButton>
       </div>
 
-      <div class="mt-3 flex flex-wrap items-center gap-2">
+      <div class="mt-3 flex items-center justify-between gap-2 rounded-2 border border-hairline p-2">
         <span class="text-sm font-600 text-ink-muted">
           {{ requestCandidateCount }}
         </span>
-        <UiButton
-          data-action="generate"
-          variant="primary"
-          @click="onGenerateSession">
-          생성하기
-        </UiButton>
-        <UiButton
-          data-action="reset"
-          variant="ghost"
-          @click="onResetSession">
-          초기화
-        </UiButton>
+        <div class="flex gap-2">
+          <UiButton
+            class="border border-primary"
+            data-action="generate"
+            variant="primary"
+            @click="onGenerateSession">
+            생성하기
+          </UiButton>
+          <UiButton
+            data-action="reset"
+            variant="secondary"
+            @click="onResetSession">
+            초기화
+          </UiButton>
+        </div>
       </div>
     </article>
 
