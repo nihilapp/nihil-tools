@@ -11,6 +11,7 @@
 ## Global Constraints
 
 - Derive league candidate semantics from `references/세션 롤 테이블 참고자료/자유 탐사 연맹 공고 유형.md`.
+- Use `references/세션 롤 테이블 참고자료/tables/league-notice-token-mapping.tsv` only to validate the 85 notice group/type/role/security records; do not reuse its legacy token sets.
 - Use one word through short two- or three-word Korean expressions; do not mechanically split prose.
 - Every merged league pool and every civilian pool must contain at least 30 distinct candidates.
 - Allow semantic overlap between different notices; never display a duplicate candidate in one generated result.
@@ -87,7 +88,7 @@ for (const notice of sessionRollTableData.civilianNotices) {
 
 - [ ] **Step 3: Replace every `reasonTokenSets` field.**
 
-Each array must contain purpose-oriented candidates (for example, `알파 개체 추적` includes `우두머리 흔적`, `무리 지휘`, `영역 이동`, `행동 변화`; `토템 가디언 레이드` includes `토템 수호`, `약점 관측`, `핵 회수`, `못 파괴`). Use the reference document’s stated objective and classification for every league type.
+Each array must contain purpose-oriented candidates (for example, `알파 개체 추적` includes `우두머리 흔적`, `무리 지휘`, `영역 이동`, `행동 변화`; `토템 가디언 레이드` includes `토템 수호`, `약점 관측`, `핵 회수`, `못 파괴`). Use the reference document’s stated objective for every league type; use the TSV only to validate that all 85 current group/type records remain covered.
 
 - [ ] **Step 4: Run the focused data test and verify every one of 97 pools meets its minimum.**
 
