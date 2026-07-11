@@ -27,7 +27,9 @@ const appItems = buildAppNavigation(appListData);
       >
         <div class="flex items-start gap-2">
           <div class="flex size-10 items-center justify-center rounded-2 bg-blue-50 text-blue-500">
-            <Icon :icon="app.icon" class="size-6" />
+            <Icon
+              :icon="app.icon"
+              class="size-6" />
           </div>
 
           <div class="min-w-0 flex-1">

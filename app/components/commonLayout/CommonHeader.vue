@@ -39,7 +39,9 @@ const cssVariants = cva(
         class="flex items-center gap-2 rounded-2 border border-black-200 bg-white p-2 text-black-900 transition-colors hover:border-blue-500 hover:text-blue-500"
       >
         <span class="flex size-8 items-center justify-center rounded-2 bg-blue-500 text-white">
-          <Icon icon="solar:widget-3-bold" class="size-5" />
+          <Icon
+            icon="solar:widget-3-bold"
+            class="size-5" />
         </span>
         <span class="text-sm font-700">NIHIL Tools</span>
       </NuxtLink>
@@ -54,7 +56,9 @@ const cssVariants = cva(
         to="/apps"
         class="flex items-center gap-2 rounded-2 border border-black-200 bg-white p-2 text-sm font-600 text-black-700 transition-colors hover:border-blue-500 hover:text-blue-500"
       >
-        <Icon icon="solar:widget-4-bold" class="size-5" />
+        <Icon
+          icon="solar:widget-4-bold"
+          class="size-5" />
         <span class="hidden md:inline">앱 목록</span>
       </NuxtLink>
     </div>

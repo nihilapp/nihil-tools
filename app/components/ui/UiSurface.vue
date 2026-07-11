@@ -10,6 +10,7 @@ const props = withDefaults(defineProps<{
   variant?: UiSurfaceVariant
   padding?: 'none' | 'sm' | 'md'
 }>(), {
+  class: '',
   variant: 'default',
   padding: 'md',
 });

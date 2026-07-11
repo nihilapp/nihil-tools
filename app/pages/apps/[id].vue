@@ -113,7 +113,9 @@ function handleGenerate() {
     >
       <div class="flex items-start gap-2">
         <div class="flex size-12 items-center justify-center rounded-2 bg-blue-50 text-blue-500">
-          <Icon :icon="app.icon" class="size-7" />
+          <Icon
+            :icon="app.icon"
+            class="size-7" />
         </div>
 
         <div class="min-w-0 flex-1">

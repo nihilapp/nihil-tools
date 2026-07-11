@@ -11,6 +11,7 @@ const props = withDefaults(defineProps<{
   disabled?: boolean
   type?: 'button' | 'submit' | 'reset'
 }>(), {
+  class: '',
   variant: 'secondary',
   size: 'md',
   type: 'button',
