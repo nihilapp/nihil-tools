@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@iconify/vue": "^5.0.1",
+    "@nihilapp/diceroll-v3": "^3.0.5",
     "@tanstack/vue-query": "^5.101.2",
     "@tanstack/vue-query-devtools": "^6.1.36",
     "class-variance-authority": "^0.7.1",

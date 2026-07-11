@@ -11,6 +11,9 @@ importers:
       '@iconify/vue':
         specifier: ^5.0.1
         version: 5.0.1(vue@3.5.39(typescript@6.0.3))
+      '@nihilapp/diceroll-v3':
+        specifier: ^3.0.5
+        version: 3.0.5
       '@tanstack/vue-query':
         specifier: ^5.101.2
         version: 5.101.2(vue@3.5.39(typescript@6.0.3))
@@ -916,6 +919,9 @@ packages:
     peerDependencies:
       '@emnapi/core': ^1.7.1
       '@emnapi/runtime': ^1.7.1
+
+  '@nihilapp/diceroll-v3@3.0.5':
+    resolution: {integrity: sha512-mf7J9P+PFP+4JJzUmawcN6YeJ79gOgt8dntTEmUhLJ2LeCm1eP0NiCazJOShYly5A92D3dqtjTO10sOXlc11ZQ==}
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -6361,6 +6367,12 @@ snapshots:
       '@emnapi/runtime': 1.10.0
       '@tybys/wasm-util': 0.10.3
     optional: true
+
+  '@nihilapp/diceroll-v3@3.0.5':
+    dependencies:
+      lodash: 4.18.1
+      luxon: 3.7.2
+      uuid: 14.0.1
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
