@@ -6,13 +6,7 @@ import { computed, onBeforeUnmount, ref } from 'vue';
 import UiButton from '~/components/ui/UiButton.vue';
 import { defaultImageWebpQuality } from '~/data/image-webp-converter.data';
 import type { ImageWebpConversionItem } from '~/data/image-webp-converter.types';
-import {
-  convertImageFileToWebp,
-  formatFileSize,
-  getSavedPercent,
-  getWebpOutputName,
-  isConvertibleImageFile,
-} from '~/utils/image-webp-converter';
+import { convertImageFileToWebp, formatFileSize, getSavedPercent, getWebpOutputName, isConvertibleImageFile } from '~/utils/image-webp-converter';
 import { cn } from '~/utils/cn';
 
 const cssVariants = cva([
@@ -151,7 +145,8 @@ function onRemoveItem(item: ImageWebpConversionItem) {
 
 function onClearAll() {
   items.value.forEach(revokeItemUrls);
-  items.value = [];
+  items.value = [
+  ];
 }
 
 onBeforeUnmount(() => {

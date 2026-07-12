@@ -1,8 +1,8 @@
 import { convertibleImageMimeTypes } from '~/data/image-webp-converter.data';
 
 export function isConvertibleImageFile(file: File): boolean {
-  return convertibleImageMimeTypes.includes(file.type as typeof convertibleImageMimeTypes[number])
-    || /\.(jpe?g|png)$/i.test(file.name);
+  return convertibleImageMimeTypes.includes(file.type as typeof convertibleImageMimeTypes[number]) ||
+    /\.(jpe?g|png)$/i.test(file.name);
 }
 
 export function getWebpOutputName(fileName: string): string {
@@ -27,7 +27,9 @@ export function formatFileSize(bytes: number): string {
     unitIndex += 1;
   }
 
-  return `${size.toFixed(size >= 10 ? 1 : 2)} ${units[unitIndex]}`;
+  return `${size.toFixed(size >= 10
+    ? 1
+    : 2)} ${units[unitIndex]}`;
 }
 
 export function getSavedPercent(sourceSize: number, outputSize: number): number {
