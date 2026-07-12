@@ -5,6 +5,7 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
+    "dev:reset": "powershell -NoProfile -ExecutionPolicy Bypass -Command \"$paths = @('.nuxt', 'node_modules\\.cache\\vite', 'node_modules\\.cache\\nuxt'); $paths | Where-Object { Test-Path -LiteralPath $_ } | ForEach-Object { Remove-Item -LiteralPath $_ -Recurse -Force }\" && pnpm dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
