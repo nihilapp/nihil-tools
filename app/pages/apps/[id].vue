@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue';
 
-import { appListData } from '../../data/app-list.data';
-import { buildAppNavigation, findAppById } from '../../utils/app-shell';
-import { generatePlaceNames, type PlaceNameGenerationCount } from '../../utils/place-name-generator';
+import { useSetMeta } from '~/composables/useSetMeta';
+import { appListData } from '~/data/app-list.data';
+import { buildAppNavigation, findAppById } from '~/utils/app-shell';
+import { generatePlaceNames, type PlaceNameGenerationCount } from '~/utils/place-name-generator';
 
 type GeneratedBatch = Array<string>;
 
@@ -25,6 +26,11 @@ if (!app.value) {
     statusMessage: '앱을 찾을 수 없습니다.',
   });
 }
+
+useSetMeta({
+  title: app.value.name,
+  url: `/apps/${app.value.id}`,
+});
 
 function handleGenerate() {
   const nextBatch = generatePlaceNames(generationCount.value);

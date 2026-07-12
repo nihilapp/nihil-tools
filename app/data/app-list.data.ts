@@ -34,6 +34,6 @@ export const appListData: AppListItem[] = [
     name: '이미지 WebP 변환',
     description: 'PNG와 JPG 이미지를 WebP로 일괄 변환합니다.',
     icon: 'material-symbols:image',
-    url: '/apps/image-webp-converter',
+    url: '/image-webp-converter',
   },
 ];

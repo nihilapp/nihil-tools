@@ -2,9 +2,15 @@
 import { Icon } from '@iconify/vue';
 
 import { appListData } from '~/data/app-list.data';
+import { useSetMeta } from '~/composables/useSetMeta';
 import { buildAppNavigation } from '~/utils/app-shell';
 
 const appItems = buildAppNavigation(appListData);
+
+useSetMeta({
+  title: '앱 목록',
+  url: '/apps',
+});
 </script>
 
 <template>

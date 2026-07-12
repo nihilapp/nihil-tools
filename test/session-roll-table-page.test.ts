@@ -1,9 +1,13 @@
 import { mount } from '@vue/test-utils';
-import { describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import SessionRollTablePage from '~/pages/apps/session-roll-table.vue';
 
 describe('SessionRollTablePage', () => {
+  beforeEach(() => {
+    vi.stubGlobal('useHead', vi.fn());
+  });
+
   it('renders the session roll table at the apps route', () => {
     const wrapper = mount(SessionRollTablePage);
 

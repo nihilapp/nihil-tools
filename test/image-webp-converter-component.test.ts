@@ -50,7 +50,7 @@ describe('ImageWebpConverter', () => {
   it('registers the image WebP converter in the app list', () => {
     expect(appListData).toContainEqual(expect.objectContaining({
       name: '이미지 WebP 변환',
-      url: '/apps/image-webp-converter',
+      url: '/image-webp-converter',
     }));
   });
 });
