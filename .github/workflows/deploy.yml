@@ -79,4 +79,13 @@ jobs:
           systemctl restart nihil-tools.service
           systemctl is-active --quiet nihil-tools.service
 
-          curl -fsS -I "http://127.0.0.1:${APP_PORT}/apps" >/dev/null
+          for attempt in $(seq 1 30); do
+            if curl -fsS -I "http://127.0.0.1:${APP_PORT}/apps" >/dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+
+          echo "nihil-tools did not become ready on port ${APP_PORT}"
+          systemctl status nihil-tools.service --no-pager -l || true
+          exit 1
