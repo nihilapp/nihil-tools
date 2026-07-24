@@ -36,4 +36,10 @@ export const appListData: AppListItem[] = [
     icon: 'material-symbols:image',
     url: '/image-webp-converter',
   },
+  {
+    name: '랜덤 키워드 생성기',
+    description: '카테고리별 키워드와 캐릭터 배경 스토리를 생성합니다.',
+    icon: 'material-symbols:auto-awesome',
+    url: '/random-keyword-generator',
+  },
 ];
