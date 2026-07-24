@@ -25,7 +25,7 @@ const cssVariants = cva([
       primary: 'bg-primary text-on-primary hover:bg-primary-active',
       secondary: 'border border-hairline bg-surface text-ink hover:bg-canvas-soft',
       outline: 'border border-primary bg-transparent text-primary hover:bg-primary/10',
-      ghost: 'bg-transparent text-ink hover:bg-canvas-soft',
+		ghost: 'border border-hairline bg-transparent text-ink hover:bg-canvas-soft',
       danger: 'bg-danger text-on-primary hover:bg-danger/90',
     },
     size: {

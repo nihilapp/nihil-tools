@@ -3,6 +3,8 @@ import { computed, ref } from 'vue';
 import { cva } from 'class-variance-authority';
 
 import UiButton from '~/components/ui/UiButton.vue';
+import UiPanel from '~/components/ui/UiPanel.vue';
+import UiPanelDivider from '~/components/ui/UiPanelDivider.vue';
 import { getLeagueNoticeDataByTab, getLeagueNoticeReasonCandidates, getLeagueRequesterCandidates, leagueNoticeTabData, sessionRollTableData } from '~/data/session-roll-table.data';
 import type { CivilianNoticeData, LeagueNoticeData, LeagueNoticeTabId } from '~/data/session-roll-table.types';
 import { cn } from '~/utils/cn';
@@ -30,7 +32,7 @@ interface GeneratedCivilianSession extends GeneratedSessionBase {
 type GeneratedSession = GeneratedLeagueSession | GeneratedCivilianSession;
 
 const cssVariants = cva([
-  'flex min-h-0 flex-col gap-2',
+  'flex h-full min-h-0 flex-col gap-2 overflow-hidden',
 ], {
   variants: {},
   compoundVariants: [
@@ -152,77 +154,86 @@ function onResetSession() {
 </script>
 
 <template>
-  <section :class="cn([cssVariants({})])">
-    <header class="rounded-2 border border-hairline bg-surface p-3">
-      <h1 class="text-h4 font-700 text-ink">
-        세션 롤 테이블
-      </h1>
-      <p class="mt-1 text-sm text-ink-muted">
-        의뢰와 세션 환경을 조합해 즉시 사용할 아이디어를 만듭니다.
-      </p>
-    </header>
+  <UiPanelDivider
+    direction="column"
+    gap="sm"
+    :class="cn([cssVariants({})])"
+  >
+    <UiPanel
+      :width="0"
+      background="surface">
+      <header>
+        <p class="text-sm text-ink-muted">
+          의뢰와 세션 환경을 조합해 즉시 사용할 아이디어를 만듭니다.
+        </p>
+      </header>
 
-    <article class="rounded-2 border border-hairline bg-surface p-3">
-      <div class="flex gap-2">
-        <UiButton
-          class="flex-1"
-          data-category="league"
-          :variant="requestCategory === 'league' ? 'primary' : 'secondary'"
-          @click="onSelectRequestCategory('league')"
-        >
-          연맹 의뢰
-        </UiButton>
-        <UiButton
-          class="flex-1"
-          data-category="civilian"
-          :variant="requestCategory === 'civilian' ? 'primary' : 'secondary'"
-          @click="onSelectRequestCategory('civilian')"
-        >
-          민간 의뢰
-        </UiButton>
-      </div>
-
-      <div
-        v-if="requestCategory === 'league'"
-        class="mt-3 flex gap-2 border-t border-hairline pt-3"
-      >
-        <UiButton
-          v-for="tab in leagueNoticeTabData"
-          :key="tab.id"
-          :data-tab="tab.id"
-          class="flex-1"
-          size="sm"
-          :variant="leagueNoticeTab === tab.id ? 'outline' : 'secondary'"
-          @click="onSelectLeagueNoticeTab(tab.id)"
-        >
-          {{ tab.label }}
-        </UiButton>
-      </div>
-
-      <div class="mt-3 flex items-center justify-between gap-2 rounded-2 border border-hairline p-2">
-        <span class="text-sm font-600 text-ink-muted">
-          {{ requestCandidateCount }}
-        </span>
+      <div class="mt-3 border-t border-hairline pt-3">
         <div class="flex gap-2">
           <UiButton
-            class="border border-primary"
-            data-action="generate"
-            variant="primary"
-            @click="onGenerateSession">
-            생성하기
+            class="flex-1"
+            data-category="league"
+            :variant="requestCategory === 'league' ? 'primary' : 'secondary'"
+            @click="onSelectRequestCategory('league')"
+          >
+            연맹 의뢰
           </UiButton>
           <UiButton
-            data-action="reset"
-            variant="secondary"
-            @click="onResetSession">
-            초기화
+            class="flex-1"
+            data-category="civilian"
+            :variant="requestCategory === 'civilian' ? 'primary' : 'secondary'"
+            @click="onSelectRequestCategory('civilian')"
+          >
+            민간 의뢰
           </UiButton>
         </div>
-      </div>
-    </article>
 
-    <article class="min-h-0 rounded-2 border border-hairline bg-surface p-3">
-      <template v-if="generatedSession">
+        <div
+          v-if="requestCategory === 'league'"
+          class="mt-3 flex gap-2 border-t border-hairline pt-3"
+        >
+          <UiButton
+            v-for="tab in leagueNoticeTabData"
+            :key="tab.id"
+            :data-tab="tab.id"
+            class="flex-1"
+            size="sm"
+            :variant="leagueNoticeTab === tab.id ? 'outline' : 'secondary'"
+            @click="onSelectLeagueNoticeTab(tab.id)"
+          >
+            {{ tab.label }}
+          </UiButton>
+        </div>
+
+        <div class="mt-3 flex items-center justify-between gap-2 rounded-2 border border-hairline p-2">
+          <span class="text-sm font-600 text-ink-muted">
+            {{ requestCandidateCount }}
+          </span>
+          <div class="flex gap-2">
+            <UiButton
+              class="border border-primary"
+              data-action="generate"
+              variant="primary"
+              @click="onGenerateSession">
+              생성하기
+            </UiButton>
+            <UiButton
+              data-action="reset"
+              variant="secondary"
+              @click="onResetSession">
+              초기화
+            </UiButton>
+          </div>
+        </div>
+      </div>
+    </UiPanel>
+
+    <UiPanel
+      class="min-h-0 overflow-hidden"
+      background="surface">
+      <div
+        v-if="generatedSession"
+        class="h-full overflow-y-auto">
         <div class="flex flex-wrap items-center justify-between gap-2 border-b border-hairline pb-3">
           <div>
             <p class="text-sm font-700 text-primary">
@@ -327,14 +338,14 @@ function onResetSession() {
             </span>
           </div>
         </div>
-      </template>
+      </div>
 
       <div
         v-else
-        class="flex min-h-48 items-center justify-center rounded-2 border border-dashed border-hairline bg-canvas-soft p-3 text-sm text-ink-muted"
+        class="flex min-h-48 items-center justify-center text-sm text-ink-muted"
       >
         생성하기를 누르면 세션 조합이 표시됩니다.
       </div>
-    </article>
-  </section>
+    </UiPanel>
+  </UiPanelDivider>
 </template>

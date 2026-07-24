@@ -16,6 +16,7 @@ export default defineNuxtConfig({
     optimizeDeps: {
       include: [
         '@iconify/vue',
+        '@nihilapp/diceroll-v3',
         'class-variance-authority',
         'clsx',
         'tailwind-merge',

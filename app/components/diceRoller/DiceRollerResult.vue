@@ -20,24 +20,49 @@ const cssVariants = cva([
   defaultVariants: {},
 });
 
-function getDetailValues(detail: DiceBlockRollDetail): Array<number> {
+interface RollValue {
+  isCritical: boolean
+  isDropped: boolean
+  isFumble: boolean
+  result: number
+}
+
+function getDetailValues(detail: DiceBlockRollDetail): RollValue[] {
   const result = detail.rollResult;
 
   if ('rolls' in result) {
-    return result.rolls.map((roll) => roll.result);
+    return result.rolls.map((roll) => ({
+      ...roll,
+      isDropped: false,
+    }));
   }
 
   if ('all' in result) {
-    return result.all.map((roll) => roll.result);
+    return result.all.map((roll) => ({
+      ...roll,
+      isDropped: result.dropped.some((dropped) => dropped === roll || (
+        dropped.isCritical === roll.isCritical &&
+        dropped.isFumble === roll.isFumble &&
+        dropped.result === roll.result
+      )),
+    }));
   }
 
   if ('dice' in result) {
-    return result.dice;
+    return result.dice.map((value) => ({
+      isCritical: false,
+      isDropped: false,
+      isFumble: false,
+      result: value,
+    }));
   }
 
   if ('result' in result) {
     return [
-      result.result,
+      {
+        ...result,
+        isDropped: false,
+      },
     ];
   }
 
@@ -47,11 +72,12 @@ function getDetailValues(detail: DiceBlockRollDetail): Array<number> {
 </script>
 
 <template>
-  <article
+  <div
     :class="cn([
       cssVariants({}),
       props.class,
-    ])">
+    ])"
+  >
     <div
       v-for="result in props.item.results"
       :key="result.expression"
@@ -68,7 +94,25 @@ function getDetailValues(detail: DiceBlockRollDetail): Array<number> {
         class="flex flex-wrap items-center gap-1 text-sm text-ink-muted"
       >
         <span class="font-600 text-ink">{{ detail.block }}</span>
-        <span v-if="getDetailValues(detail).length > 0">{{ getDetailValues(detail).join(', ') }}</span>
+        <span
+          v-if="getDetailValues(detail).length > 0"
+          class="flex flex-wrap gap-1"
+        >
+          <span
+            v-for="value in getDetailValues(detail)"
+            :key="`${detail.block}-${value.result}`"
+            :data-testid="`roll-value-${value.result}`"
+            :class="cn([
+              value.isDropped
+                ? 'font-700 text-ink-muted line-through'
+                : value.isFumble
+                  ? 'font-700 text-danger'
+                  : value.isCritical
+                    ? 'font-700 text-success'
+                    : '',
+            ])"
+          >{{ value.result }}</span>
+        </span>
         <span v-if="detail.contribution !== result.total">= {{ detail.contribution }}</span>
       </div>
 
@@ -79,5 +123,5 @@ function getDetailValues(detail: DiceBlockRollDetail): Array<number> {
         보정치 {{ result.modifiers.map((modifier) => `${modifier.sign}${modifier.value}`).join(' ') }}
       </p>
     </div>
-  </article>
+  </div>
 </template>

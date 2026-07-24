@@ -6,7 +6,7 @@ import CommonHeader from '~/components/commonLayout/CommonHeader.vue';
 </script>
 
 <template>
-  <div class="flex min-h-dvh flex-col bg-black-100 text-black-900">
+  <div class="flex h-dvh flex-col overflow-hidden bg-black-100 text-black-900">
     <CommonHeader />
     <CommonContent>
       <slot />

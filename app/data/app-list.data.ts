@@ -27,7 +27,7 @@ export const appListData: AppListItem[] = [
   {
     name: '주사위 굴리기',
     description: '주사위를 굴립니다.',
-    icon: 'material-symbols:map',
+    icon: 'game-icons:dice-twenty-faces-twenty',
     url: '/dice-roller',
   },
   {

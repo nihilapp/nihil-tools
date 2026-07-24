@@ -4,13 +4,15 @@ import { cva } from 'class-variance-authority';
 import { computed, onBeforeUnmount, ref } from 'vue';
 
 import UiButton from '~/components/ui/UiButton.vue';
+import UiPanel from '~/components/ui/UiPanel.vue';
+import UiPanelDivider from '~/components/ui/UiPanelDivider.vue';
 import { defaultImageWebpQuality } from '~/data/image-webp-converter.data';
 import type { ImageWebpConversionItem } from '~/data/image-webp-converter.types';
 import { convertImageFileToWebp, formatFileSize, getSavedPercent, getWebpOutputName, isConvertibleImageFile } from '~/utils/image-webp-converter';
 import { cn } from '~/utils/cn';
 
 const cssVariants = cva([
-  'flex h-full min-h-0 flex-col gap-3 overflow-y-auto',
+  'flex h-full min-h-0 flex-col gap-3 overflow-hidden',
 ], {
   variants: {},
   compoundVariants: [
@@ -155,50 +157,63 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <section
+  <UiPanelDivider
+    direction="column"
+    gap="sm"
     :class="cn([
       cssVariants({}),
-    ])">
-    <div class="grid gap-3 lg:grid-cols-[minmax(0,1fr)_18rem]">
-      <div
-        :class="cn([
-          'flex min-h-60 flex-col items-center justify-center rounded-2 border border-dashed p-4 text-center transition-colors',
-          isDragging
-            ? 'border-primary bg-primary/10'
-            : 'border-hairline bg-canvas-soft hover:border-primary',
-        ])"
-        @dragenter.prevent="isDragging = true"
-        @dragover.prevent="isDragging = true"
-        @dragleave.prevent="isDragging = false"
-        @drop.prevent="onDropFiles">
-        <input
-          ref="fileInput"
-          data-testid="image-file-input"
-          type="file"
-          accept="image/png,image/jpeg,.png,.jpg,.jpeg"
-          multiple
-          class="hidden"
-          @change="onChangeFileInput">
-        <div class="flex size-12 items-center justify-center rounded-2 bg-primary/10 text-primary">
-          <Icon
-            icon="material-symbols:image-search"
-            class="size-7" />
+    ])"
+  >
+    <UiPanelDivider
+      direction="row"
+      gap="sm"
+      :width="0"
+      class="max-lg:flex-col">
+      <UiPanel background="surface">
+        <div
+          :class="cn([
+            'flex h-full min-h-60 flex-col items-center justify-center rounded-2 border border-dashed p-4 text-center transition-colors',
+            isDragging
+              ? 'border-primary bg-primary/10'
+              : 'border-hairline bg-canvas-soft hover:border-primary',
+          ])"
+          @dragenter.prevent="isDragging = true"
+          @dragover.prevent="isDragging = true"
+          @dragleave.prevent="isDragging = false"
+          @drop.prevent="onDropFiles">
+          <input
+            ref="fileInput"
+            data-testid="image-file-input"
+            type="file"
+            accept="image/png,image/jpeg,.png,.jpg,.jpeg"
+            multiple
+            class="hidden"
+            @change="onChangeFileInput">
+          <div class="flex size-12 items-center justify-center rounded-2 bg-primary/10 text-primary">
+            <Icon
+              icon="material-symbols:image-search"
+              class="size-7" />
+          </div>
+          <h1 class="mt-3 text-lg font-700 text-ink">
+            PNG 또는 JPG 파일을 놓으세요
+          </h1>
+          <p class="mt-1 text-sm text-ink-muted">
+            여러 파일을 한 번에 변환하며, 파일은 브라우저 밖으로 전송되지 않습니다.
+          </p>
+          <UiButton
+            class="mt-4"
+            variant="primary"
+            @click="onOpenFileInput">
+            파일 선택
+          </UiButton>
         </div>
-        <h1 class="mt-3 text-lg font-700 text-ink">
-          PNG 또는 JPG 파일을 놓으세요
-        </h1>
-        <p class="mt-1 text-sm text-ink-muted">
-          여러 파일을 한 번에 변환하며, 파일은 브라우저 밖으로 전송되지 않습니다.
-        </p>
-        <UiButton
-          class="mt-4"
-          variant="primary"
-          @click="onOpenFileInput">
-          파일 선택
-        </UiButton>
-      </div>
 
-      <aside class="rounded-2 border border-hairline bg-surface p-3 shadow-surface">
+      </UiPanel>
+
+      <UiPanel
+        role="aside"
+        background="surface"
+      >
         <div class="flex items-center justify-between">
           <h2 class="font-700 text-ink">
             변환 옵션
@@ -258,26 +273,34 @@ onBeforeUnmount(() => {
           @click="onClearAll">
           목록 비우기
         </UiButton>
-      </aside>
-    </div>
+      </UiPanel>
+    </UiPanelDivider>
 
-    <section
-      v-if="hasItems"
-      class="overflow-hidden rounded-2 border border-hairline bg-surface shadow-surface">
+    <UiPanel
+      class="flex min-h-0 flex-col overflow-hidden"
+      background="surface"
+      padding="none"
+    >
       <header class="flex items-center justify-between border-b border-hairline px-3 py-2">
         <h2 class="font-700 text-ink">
           변환 목록
         </h2>
         <span class="text-sm text-ink-muted">
-          {{ completedItems.length }} / {{ items.length }}
+          {{ completedItems.length }} / {{ items.length }}개
         </span>
       </header>
-      <ul class="divide-y divide-hairline">
+      <ul class="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto p-3">
+        <li
+          v-if="!hasItems"
+          class="flex flex-1 items-center justify-center text-sm text-ink-muted"
+        >
+          업로드된 파일이 없습니다.
+        </li>
         <li
           v-for="item in items"
           :key="item.id"
           data-testid="queue-item"
-          class="flex items-center gap-3 p-3">
+          class="flex items-center gap-3 rounded-2 border border-hairline bg-surface p-3">
           <img
             :src="item.sourceUrl"
             :alt="item.sourceFile.name"
@@ -340,6 +363,6 @@ onBeforeUnmount(() => {
           </button>
         </li>
       </ul>
-    </section>
-  </section>
+    </UiPanel>
+  </UiPanelDivider>
 </template>

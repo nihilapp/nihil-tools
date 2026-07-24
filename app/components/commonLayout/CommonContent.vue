@@ -5,12 +5,12 @@ defineProps<{
 </script>
 
 <template>
-  <div class="mx-auto flex min-h-[calc(100dvh-8rem)] w-full max-w-6xl flex-1 items-start gap-2 p-2">
+  <main class="mx-auto flex min-h-0 w-full max-w-6xl flex-1 items-stretch gap-2 overflow-hidden p-2">
     <aside v-if="aside" />
-    <main class="flex min-w-0 flex-1 flex-col gap-2">
+    <div class="flex min-h-0 min-w-0 flex-1 flex-col gap-2">
       <slot />
-    </main>
-  </div>
+    </div>
+  </main>
 </template>
 
 <style scoped>

@@ -6,10 +6,11 @@ export const useSetMeta = (meta: SiteMetadata) => {
   const siteKeywords = meta.keywords
     ? `${appConfig.site.keywords}, ${meta.keywords}`
     : appConfig.site.keywords;
-  const siteUrl = `${appConfig.site.url}${meta.url}`;
-  const siteImageLink = meta.imageLink
-    ? `${appConfig.site.url}${meta.imageLink}`
-    : `${appConfig.site.url}${appConfig.images.cover.link}`;
+  const siteUrl = new URL(meta.url, appConfig.site.url).toString();
+  const siteImageLink = new URL(
+    meta.imageLink ?? appConfig.images.cover.link,
+    appConfig.site.url,
+  ).toString();
   const siteImageAlt = meta.imageAlt || appConfig.images.cover.alt;
   const siteType = meta.type || (appConfig.site.type as OpenGraphType);
 
