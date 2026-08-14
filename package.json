@@ -17,6 +17,8 @@
     "@nihilapp/diceroll-v3": "^3.0.5",
     "@tanstack/vue-query": "^5.101.4",
     "@tanstack/vue-query-devtools": "^6.1.38",
+    "argon2": "^0.45.1",
+    "bcryptjs": "^3.0.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "drizzle-orm": "^0.45.2",
