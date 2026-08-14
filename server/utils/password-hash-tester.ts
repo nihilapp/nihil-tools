@@ -3,8 +3,7 @@ import argon2 from 'argon2';
 import type { HashOptions } from 'argon2';
 import bcrypt from 'bcryptjs';
 
-import {
-  defaultArgon2MemoryCost,
+import { defaultArgon2MemoryCost,
   defaultArgon2Parallelism,
   defaultArgon2TimeCost,
   defaultBcryptCost,
@@ -15,16 +14,13 @@ import {
   minArgon2MemoryCost,
   minArgon2Parallelism,
   minArgon2TimeCost,
-  minBcryptCost,
-} from '~/data/password-hash-tester.data';
-import type {
-  CompareRequest,
+  minBcryptCost } from '~/data/password-hash-tester.data';
+import type { CompareRequest,
   CompareResult,
   FixedHashAlgorithm,
   HashRequest,
   HashResult,
-  PasswordHashAlgorithm,
-} from '~/types/password-hash-tester';
+  PasswordHashAlgorithm } from '~/types/password-hash-tester';
 
 function assertHashValue(value: string) {
   if (!value) {
@@ -33,10 +29,10 @@ function assertHashValue(value: string) {
 }
 
 function isFixedHashAlgorithm(algorithm: PasswordHashAlgorithm): algorithm is FixedHashAlgorithm {
-  return algorithm === 'md5'
-    || algorithm === 'sha1'
-    || algorithm === 'sha256'
-    || algorithm === 'sha512';
+  return algorithm === 'md5' ||
+    algorithm === 'sha1' ||
+    algorithm === 'sha256' ||
+    algorithm === 'sha512';
 }
 
 function createFixedHash(algorithm: FixedHashAlgorithm, value: string) {
@@ -49,8 +45,8 @@ function isSameHash(left: string, right: string) {
   const leftBuffer = Buffer.from(left, 'utf8');
   const rightBuffer = Buffer.from(right, 'utf8');
 
-  return leftBuffer.length === rightBuffer.length
-    && timingSafeEqual(leftBuffer, rightBuffer);
+  return leftBuffer.length === rightBuffer.length &&
+    timingSafeEqual(leftBuffer, rightBuffer);
 }
 
 function getIntegerInRange(value: number | undefined, defaultValue: number, min: number, max: number, label: string) {
@@ -85,12 +81,12 @@ function isArgon2idHash(hash: string) {
 }
 
 function isPasswordHashAlgorithm(value: unknown): value is PasswordHashAlgorithm {
-  return value === 'md5'
-    || value === 'sha1'
-    || value === 'sha256'
-    || value === 'sha512'
-    || value === 'bcrypt'
-    || value === 'argon2id';
+  return value === 'md5' ||
+    value === 'sha1' ||
+    value === 'sha256' ||
+    value === 'sha512' ||
+    value === 'bcrypt' ||
+    value === 'argon2id';
 }
 
 function isOptionalNumber(value: unknown) {
@@ -108,12 +104,12 @@ function getRequestRecord(body: unknown): Record<string, unknown> {
 function parseHashRequest(body: unknown): HashRequest {
   const request = getRequestRecord(body);
 
-  if (!isPasswordHashAlgorithm(request.algorithm)
-    || typeof request.value !== 'string'
-    || !isOptionalNumber(request.bcryptCost)
-    || !isOptionalNumber(request.argon2MemoryCost)
-    || !isOptionalNumber(request.argon2TimeCost)
-    || !isOptionalNumber(request.argon2Parallelism)) {
+  if (!isPasswordHashAlgorithm(request.algorithm) ||
+    typeof request.value !== 'string' ||
+    !isOptionalNumber(request.bcryptCost) ||
+    !isOptionalNumber(request.argon2MemoryCost) ||
+    !isOptionalNumber(request.argon2TimeCost) ||
+    !isOptionalNumber(request.argon2Parallelism)) {
     throw new Error('요청 형식이 올바르지 않습니다.');
   }
 
@@ -130,9 +126,9 @@ function parseHashRequest(body: unknown): HashRequest {
 function parseCompareRequest(body: unknown): CompareRequest {
   const request = getRequestRecord(body);
 
-  if (!isPasswordHashAlgorithm(request.algorithm)
-    || typeof request.hash !== 'string'
-    || typeof request.value !== 'string') {
+  if (!isPasswordHashAlgorithm(request.algorithm) ||
+    typeof request.hash !== 'string' ||
+    typeof request.value !== 'string') {
     throw new Error('요청 형식이 올바르지 않습니다.');
   }
 
@@ -162,7 +158,8 @@ export async function createPasswordHash(request: HashRequest): Promise<HashResu
     return {
       algorithm: request.algorithm,
       hash: createFixedHash(request.algorithm, request.value),
-      settings: [],
+      settings: [
+      ],
     };
   }
 
@@ -173,7 +170,10 @@ export async function createPasswordHash(request: HashRequest): Promise<HashResu
       algorithm: request.algorithm,
       hash: await bcrypt.hash(request.value, bcryptCost),
       settings: [
-        { label: '비용', value: String(bcryptCost) },
+        {
+          label: '비용',
+          value: String(bcryptCost),
+        },
       ],
     };
   }
@@ -184,9 +184,18 @@ export async function createPasswordHash(request: HashRequest): Promise<HashResu
     algorithm: request.algorithm,
     hash: await argon2.hash(request.value, options),
     settings: [
-      { label: '메모리', value: `${options.memoryCost} KiB` },
-      { label: '반복', value: String(options.timeCost) },
-      { label: '병렬성', value: String(options.parallelism) },
+      {
+        label: '메모리',
+        value: `${options.memoryCost} KiB`,
+      },
+      {
+        label: '반복',
+        value: String(options.timeCost),
+      },
+      {
+        label: '병렬성',
+        value: String(options.parallelism),
+      },
     ],
   };
 }

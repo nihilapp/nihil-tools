@@ -42,4 +42,10 @@ export const appListData: AppListItem[] = [
     icon: 'material-symbols:auto-awesome',
     url: '/random-keyword-generator',
   },
+  {
+    name: '비밀번호 해시 테스트',
+    description: '문자열을 해시하고 기존 해시와 일치 여부를 확인합니다.',
+    icon: 'material-symbols:password',
+    url: '/password-hash-tester',
+  },
 ];

@@ -7,12 +7,36 @@ export interface PasswordHashAlgorithmOption {
 }
 
 export const passwordHashAlgorithmOptions: PasswordHashAlgorithmOption[] = [
-  { group: 'fixed', label: 'MD5', value: 'md5' },
-  { group: 'fixed', label: 'SHA-1', value: 'sha1' },
-  { group: 'fixed', label: 'SHA-256', value: 'sha256' },
-  { group: 'fixed', label: 'SHA-512', value: 'sha512' },
-  { group: 'password', label: 'bcrypt', value: 'bcrypt' },
-  { group: 'password', label: 'argon2id', value: 'argon2id' },
+  {
+    group: 'fixed',
+    label: 'MD5',
+    value: 'md5',
+  },
+  {
+    group: 'fixed',
+    label: 'SHA-1',
+    value: 'sha1',
+  },
+  {
+    group: 'fixed',
+    label: 'SHA-256',
+    value: 'sha256',
+  },
+  {
+    group: 'fixed',
+    label: 'SHA-512',
+    value: 'sha512',
+  },
+  {
+    group: 'password',
+    label: 'bcrypt',
+    value: 'bcrypt',
+  },
+  {
+    group: 'password',
+    label: 'argon2id',
+    value: 'argon2id',
+  },
 ];
 
 export const legacyHashWarning = 'MD5와 SHA-1은 레거시 방식입니다. 비밀번호 저장에 사용하지 마세요.';

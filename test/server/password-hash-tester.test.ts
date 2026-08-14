@@ -1,12 +1,10 @@
 import { describe, expect, it } from 'vitest';
 
-import {
-  comparePasswordHash,
+import { comparePasswordHash,
   compareHashResponse,
   createPasswordHash,
   createHashResponse,
-  detectPasswordHashAlgorithm,
-} from '~~/server/utils/password-hash-tester';
+  detectPasswordHashAlgorithm } from '~~/server/utils/password-hash-tester';
 
 describe('password hash tester', () => {
   it('creates the known SHA-256 hash for hello', async () => {
@@ -16,7 +14,8 @@ describe('password hash tester', () => {
     })).resolves.toEqual({
       algorithm: 'sha256',
       hash: '2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824',
-      settings: [],
+      settings: [
+      ],
     });
   });
 
@@ -95,7 +94,8 @@ describe('password hash tester', () => {
     })).resolves.toEqual({
       algorithm: 'sha256',
       hash: '2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824',
-      settings: [],
+      settings: [
+      ],
     });
   });
 
