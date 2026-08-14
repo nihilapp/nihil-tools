@@ -17,6 +17,14 @@ describe('PasswordHashTester', () => {
     expect(wrapper.text()).toContain('MD5와 SHA-1은 레거시 방식입니다.');
   });
 
+  it('uses side-by-side panels with internal overflow areas', () => {
+    const wrapper = mount(PasswordHashTester);
+
+    expect(wrapper.get('[data-testid="hash-tester-layout"]').classes()).toContain('flex-row');
+    expect(wrapper.get('[data-testid="hash-panel-content"]').classes()).toContain('overflow-y-auto');
+    expect(wrapper.get('[data-testid="compare-panel-content"]').classes()).toContain('overflow-y-auto');
+  });
+
   it('shows the bcrypt cost input when bcrypt is selected', async () => {
     const wrapper = mount(PasswordHashTester);
 

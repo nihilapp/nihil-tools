@@ -11,7 +11,7 @@ import type { CompareResult, HashResult, PasswordHashAlgorithm } from '~/types/p
 import { cn } from '~/utils/cn';
 
 const cssVariants = cva([
-  'flex h-full min-h-0 flex-col gap-2 overflow-hidden',
+  'flex h-full min-h-0 gap-2 overflow-hidden',
 ], {
   variants: {},
   compoundVariants: [
@@ -136,14 +136,16 @@ async function onCopyHash() {
 
 <template>
   <UiPanelDivider
-    direction="column"
+    data-testid="hash-tester-layout"
+    direction="row"
     gap="sm"
     :class="cn([
       cssVariants({}),
+      'max-md:flex-col',
     ])"
   >
     <UiPanel
-      :width="0"
+      class="flex min-h-0 flex-col overflow-hidden"
       background="surface"
     >
       <div class="flex items-center justify-between gap-2">
@@ -154,169 +156,174 @@ async function onCopyHash() {
         <span class="rounded-2 bg-canvas-soft px-2 py-1 text-xs font-700 text-ink-muted">저장하지 않음</span>
       </div>
 
-      <form
-        data-testid="hash-form"
-        class="mt-3 grid gap-3"
-        @submit.prevent="onSubmitHash"
+      <div
+        data-testid="hash-panel-content"
+        class="min-h-0 flex-1 overflow-y-auto pr-1"
       >
-        <label
-          data-testid="hash-value"
-          class="flex flex-col gap-1 text-sm font-600 text-ink"
-        >
-          <span>문자열</span>
-          <div class="flex gap-2">
-            <input
-              v-model="hashValue"
-              :type="isHashValueVisible ? 'text' : 'password'"
-              :class="cn([
-                inputCssVariants({}),
-              ])"
-            >
-            <UiButton
-              type="button"
-              variant="secondary"
-              @click="isHashValueVisible = !isHashValueVisible"
-            >{{ isHashValueVisible ? '숨기기' : '표시' }}</UiButton>
-          </div>
-        </label>
-
-        <label
-          data-testid="hash-algorithm"
-          class="flex flex-col gap-1 text-sm font-600 text-ink"
-        >
-          <span>해시 방식</span>
-          <select
-            v-model="hashAlgorithm"
-            :class="cn([
-              inputCssVariants({}),
-            ])"
-          >
-            <optgroup label="고정 해시">
-              <option
-                v-for="option in fixedHashOptions"
-                :key="option.value"
-                :value="option.value"
-              >{{ option.label }}</option>
-            </optgroup>
-            <optgroup label="비밀번호 해시">
-              <option
-                v-for="option in passwordHashOptions"
-                :key="option.value"
-                :value="option.value"
-              >{{ option.label }}</option>
-            </optgroup>
-          </select>
-        </label>
-
-        <p
-          v-if="isLegacyHash"
-          class="text-sm text-danger"
-        >{{ legacyHashWarning }}</p>
-
-        <label
-          v-if="hashAlgorithm === 'bcrypt'"
-          data-testid="bcrypt-cost"
-          class="flex flex-col gap-1 text-sm font-600 text-ink"
-        >
-          <span>비용</span>
-          <input
-            v-model.number="bcryptCost"
-            min="4"
-            max="15"
-            type="number"
-            :class="cn([
-              inputCssVariants({}),
-            ])"
-          >
-        </label>
-
-        <div
-          v-if="hashAlgorithm === 'argon2id'"
-          class="grid gap-3 sm:grid-cols-3"
+        <form
+          data-testid="hash-form"
+          class="mt-3 grid gap-3"
+          @submit.prevent="onSubmitHash"
         >
           <label
-            data-testid="argon2-memory-cost"
+            data-testid="hash-value"
             class="flex flex-col gap-1 text-sm font-600 text-ink"
           >
-            <span>메모리 (KiB)</span>
-            <input
-              v-model.number="argon2MemoryCost"
-              min="8192"
-              max="65536"
-              type="number"
-              :class="cn([
-                inputCssVariants({}),
-              ])"
-            >
+            <span>문자열</span>
+            <div class="flex gap-2">
+              <input
+                v-model="hashValue"
+                :type="isHashValueVisible ? 'text' : 'password'"
+                :class="cn([
+                  inputCssVariants({}),
+                ])"
+              >
+              <UiButton
+                type="button"
+                variant="secondary"
+                @click="isHashValueVisible = !isHashValueVisible"
+              >{{ isHashValueVisible ? '숨기기' : '표시' }}</UiButton>
+            </div>
           </label>
-          <label class="flex flex-col gap-1 text-sm font-600 text-ink">
-            <span>반복</span>
-            <input
-              v-model.number="argon2TimeCost"
-              min="1"
-              max="10"
-              type="number"
-              :class="cn([
-                inputCssVariants({}),
-              ])"
-            >
-          </label>
-          <label class="flex flex-col gap-1 text-sm font-600 text-ink">
-            <span>병렬성</span>
-            <input
-              v-model.number="argon2Parallelism"
-              min="1"
-              max="4"
-              type="number"
-              :class="cn([
-                inputCssVariants({}),
-              ])"
-            >
-          </label>
-        </div>
 
-        <p
-          v-if="hashError"
-          class="text-sm text-danger"
-        >{{ hashError }}</p>
-        <UiButton
-          data-testid="hash-submit"
-          type="submit"
-          variant="primary"
-          :loading="isHashing"
-        >해시 생성</UiButton>
-      </form>
+          <label
+            data-testid="hash-algorithm"
+            class="flex flex-col gap-1 text-sm font-600 text-ink"
+          >
+            <span>해시 방식</span>
+            <select
+              v-model="hashAlgorithm"
+              :class="cn([
+                inputCssVariants({}),
+              ])"
+            >
+              <optgroup label="고정 해시">
+                <option
+                  v-for="option in fixedHashOptions"
+                  :key="option.value"
+                  :value="option.value"
+                >{{ option.label }}</option>
+              </optgroup>
+              <optgroup label="비밀번호 해시">
+                <option
+                  v-for="option in passwordHashOptions"
+                  :key="option.value"
+                  :value="option.value"
+                >{{ option.label }}</option>
+              </optgroup>
+            </select>
+          </label>
 
-      <div
-        v-if="hashResult"
-        class="mt-3 border-t border-hairline pt-3"
-      >
-        <div class="flex items-center justify-between gap-2">
-          <p class="text-sm font-700 text-ink">결과</p>
+          <p
+            v-if="isLegacyHash"
+            class="text-sm text-danger"
+          >{{ legacyHashWarning }}</p>
+
+          <label
+            v-if="hashAlgorithm === 'bcrypt'"
+            data-testid="bcrypt-cost"
+            class="flex flex-col gap-1 text-sm font-600 text-ink"
+          >
+            <span>비용</span>
+            <input
+              v-model.number="bcryptCost"
+              min="4"
+              max="15"
+              type="number"
+              :class="cn([
+                inputCssVariants({}),
+              ])"
+            >
+          </label>
+
+          <div
+            v-if="hashAlgorithm === 'argon2id'"
+            class="grid gap-3 sm:grid-cols-3"
+          >
+            <label
+              data-testid="argon2-memory-cost"
+              class="flex flex-col gap-1 text-sm font-600 text-ink"
+            >
+              <span>메모리 (KiB)</span>
+              <input
+                v-model.number="argon2MemoryCost"
+                min="8192"
+                max="65536"
+                type="number"
+                :class="cn([
+                  inputCssVariants({}),
+                ])"
+              >
+            </label>
+            <label class="flex flex-col gap-1 text-sm font-600 text-ink">
+              <span>반복</span>
+              <input
+                v-model.number="argon2TimeCost"
+                min="1"
+                max="10"
+                type="number"
+                :class="cn([
+                  inputCssVariants({}),
+                ])"
+              >
+            </label>
+            <label class="flex flex-col gap-1 text-sm font-600 text-ink">
+              <span>병렬성</span>
+              <input
+                v-model.number="argon2Parallelism"
+                min="1"
+                max="4"
+                type="number"
+                :class="cn([
+                  inputCssVariants({}),
+                ])"
+              >
+            </label>
+          </div>
+
+          <p
+            v-if="hashError"
+            class="text-sm text-danger"
+          >{{ hashError }}</p>
           <UiButton
-            size="sm"
-            @click="onCopyHash"
-          >복사</UiButton>
+            data-testid="hash-submit"
+            type="submit"
+            variant="primary"
+            :loading="isHashing"
+          >해시 생성</UiButton>
+        </form>
+
+        <div
+          v-if="hashResult"
+          class="mt-3 border-t border-hairline pt-3"
+        >
+          <div class="flex items-center justify-between gap-2">
+            <p class="text-sm font-700 text-ink">결과</p>
+            <UiButton
+              size="sm"
+              @click="onCopyHash"
+            >복사</UiButton>
+          </div>
+          <textarea
+            data-testid="hash-result"
+            :value="hashResult.hash"
+            readonly
+            rows="3"
+            :class="cn([
+              inputCssVariants({}),
+              'mt-2 resize-y font-mono',
+            ])"
+          />
+          <p
+            v-if="hashSummary"
+            class="mt-1 text-xs text-ink-muted"
+          >{{ hashSummary }}</p>
         </div>
-        <textarea
-          data-testid="hash-result"
-          :value="hashResult.hash"
-          readonly
-          rows="3"
-          :class="cn([
-            inputCssVariants({}),
-            'mt-2 resize-y font-mono',
-          ])"
-        />
-        <p
-          v-if="hashSummary"
-          class="mt-1 text-xs text-ink-muted"
-        >{{ hashSummary }}</p>
       </div>
     </UiPanel>
 
     <UiPanel
-      class="min-h-0 overflow-y-auto"
+      class="flex min-h-0 flex-col overflow-hidden"
       background="surface"
     >
       <div>
@@ -324,61 +331,66 @@ async function onCopyHash() {
         <p class="mt-1 text-sm text-ink-muted">원문 문자열과 해시의 일치 여부를 확인합니다.</p>
       </div>
 
-      <form
-        data-testid="compare-form"
-        class="mt-3 grid gap-3"
-        @submit.prevent="onSubmitCompare"
+      <div
+        data-testid="compare-panel-content"
+        class="min-h-0 flex-1 overflow-y-auto pr-1"
       >
-        <UiTextarea
-          v-model="compareValue"
-          data-testid="compare-value"
-          label="원문 문자열"
-          :rows="2"
-        />
-        <UiTextarea
-          v-model="compareHash"
-          data-testid="compare-hash"
-          label="비교할 해시"
-          :rows="3"
-        />
-        <label class="flex flex-col gap-1 text-sm font-600 text-ink">
-          <span>고정 해시 방식</span>
-          <select
-            v-model="compareAlgorithm"
-            :class="cn([
-              inputCssVariants({}),
-            ])"
-          >
-            <option
-              v-for="option in fixedHashOptions"
-              :key="option.value"
-              :value="option.value"
-            >{{ option.label }}</option>
-          </select>
-          <span class="text-xs font-400 text-ink-muted">bcrypt와 argon2id는 해시 문자열 형식으로 자동 감지합니다.</span>
-        </label>
-        <p
-          v-if="compareError"
-          class="text-sm text-danger"
-        >{{ compareError }}</p>
-        <UiButton
-          data-testid="compare-submit"
-          type="submit"
-          variant="primary"
-          :loading="isComparing"
-        >비교하기</UiButton>
-      </form>
+        <form
+          data-testid="compare-form"
+          class="mt-3 grid gap-3"
+          @submit.prevent="onSubmitCompare"
+        >
+          <UiTextarea
+            v-model="compareValue"
+            data-testid="compare-value"
+            label="원문 문자열"
+            :rows="2"
+          />
+          <UiTextarea
+            v-model="compareHash"
+            data-testid="compare-hash"
+            label="비교할 해시"
+            :rows="3"
+          />
+          <label class="flex flex-col gap-1 text-sm font-600 text-ink">
+            <span>고정 해시 방식</span>
+            <select
+              v-model="compareAlgorithm"
+              :class="cn([
+                inputCssVariants({}),
+              ])"
+            >
+              <option
+                v-for="option in fixedHashOptions"
+                :key="option.value"
+                :value="option.value"
+              >{{ option.label }}</option>
+            </select>
+            <span class="text-xs font-400 text-ink-muted">bcrypt와 argon2id는 해시 문자열 형식으로 자동 감지합니다.</span>
+          </label>
+          <p
+            v-if="compareError"
+            class="text-sm text-danger"
+          >{{ compareError }}</p>
+          <UiButton
+            data-testid="compare-submit"
+            type="submit"
+            variant="primary"
+            :loading="isComparing"
+          >비교하기</UiButton>
+        </form>
 
-      <p
-        v-if="compareResult"
-        data-testid="compare-result"
-        :class="cn([
-          'mt-3 rounded-2 px-3 py-2 text-sm font-700',
-          compareResult.matched
-            ? 'bg-success/10 text-success'
-            : 'bg-danger/10 text-danger',
-        ])"
-      >{{ compareResult.matched ? '일치' : '불일치' }}</p>
+        <p
+          v-if="compareResult"
+          data-testid="compare-result"
+          :class="cn([
+            'mt-3 rounded-2 px-3 py-2 text-sm font-700',
+            compareResult.matched
+              ? 'bg-success/10 text-success'
+              : 'bg-danger/10 text-danger',
+          ])"
+        >{{ compareResult.matched ? '일치' : '불일치' }}</p>
+      </div>
     </UiPanel>
   </UiPanelDivider>
 </template>
