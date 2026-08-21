@@ -48,4 +48,10 @@ export const appListData: AppListItem[] = [
     icon: 'material-symbols:password',
     url: '/password-hash-tester',
   },
+  {
+    name: '랜덤 문자열 생성기',
+    description: '길이와 문자 범위를 지정해 랜덤 문자열을 생성합니다.',
+    icon: 'material-symbols:shuffle',
+    url: '/random-string-generator',
+  },
 ];
