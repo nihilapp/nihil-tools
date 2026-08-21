@@ -43,6 +43,7 @@ const selection = ref<RandomStringCharacterRangeSelection>({
 const generatedStrings = ref<string[]>([
 ]);
 const errorMessage = ref('');
+const copyMessage = ref('');
 const characterRanges = Object.entries(randomStringCharacterRanges).map(([
   id,
   range,
@@ -53,6 +54,7 @@ const characterRanges = Object.entries(randomStringCharacterRanges).map(([
 
 function onGenerateString() {
   errorMessage.value = '';
+  copyMessage.value = '';
 
   if (!Number.isInteger(length.value) || length.value < 1) {
     errorMessage.value = '길이는 1 이상의 정수로 입력하세요.';
@@ -71,6 +73,25 @@ function onGenerateString() {
     ),
     ...generatedStrings.value,
   ];
+}
+
+function onResetStrings() {
+  errorMessage.value = '';
+  copyMessage.value = '';
+  generatedStrings.value = [
+  ];
+}
+
+async function onCopyString(value: string) {
+  copyMessage.value = '';
+
+  if (!navigator.clipboard) {
+    errorMessage.value = '클립보드를 사용할 수 없습니다.';
+    return;
+  }
+
+  await navigator.clipboard.writeText(value);
+  copyMessage.value = '복사되었습니다.';
 }
 </script>
 
@@ -129,14 +150,29 @@ function onGenerateString() {
           {{ errorMessage }}
         </p>
 
-        <UiButton
-          data-testid="generate-string"
-          class="w-fit"
-          variant="primary"
-          @click="onGenerateString"
+        <p
+          v-if="copyMessage"
+          class="text-sm text-success"
         >
-          생성하기
-        </UiButton>
+          {{ copyMessage }}
+        </p>
+
+        <div class="flex flex-wrap gap-2">
+          <UiButton
+            data-testid="reset-string"
+            variant="secondary"
+            @click="onResetStrings"
+          >
+            초기화
+          </UiButton>
+          <UiButton
+            data-testid="generate-string"
+            variant="primary"
+            @click="onGenerateString"
+          >
+            생성하기
+          </UiButton>
+        </div>
       </div>
     </UiPanel>
 
@@ -152,10 +188,21 @@ function onGenerateString() {
           <li
             v-for="(generatedString, generatedStringIndex) in generatedStrings"
             :key="`${generatedStringIndex}-${generatedString}`"
-            data-testid="generated-string"
-            class="break-all rounded-2 border border-hairline bg-surface p-3 font-mono text-sm font-700 text-ink"
+            class="flex items-start justify-between gap-3 rounded-2 border border-hairline bg-surface p-3"
           >
-            {{ generatedString }}
+            <p
+              data-testid="generated-string-value"
+              class="min-w-0 flex-1 break-all font-mono text-sm font-700 text-ink"
+            >
+              {{ generatedString }}
+            </p>
+            <UiButton
+              data-testid="copy-string"
+              size="sm"
+              @click="onCopyString(generatedString)"
+            >
+              복사
+            </UiButton>
           </li>
         </ul>
       </div>
