@@ -1,12 +1,68 @@
+import JSZip from 'jszip';
+
 import { convertibleImageMimeTypes } from '~/data/image-webp-converter.data';
+
+export interface WebpArchiveEntry {
+  outputBlob: Blob;
+  outputName: string;
+}
 
 export function isConvertibleImageFile(file: File): boolean {
   return convertibleImageMimeTypes.includes(file.type as typeof convertibleImageMimeTypes[number]) ||
     /\.(jpe?g|png)$/i.test(file.name);
 }
 
+export function getWebpOutputBaseName(fileName: string): string {
+  return fileName.replace(/\.(jpe?g|png)$/i, '');
+}
+
 export function getWebpOutputName(fileName: string): string {
-  return `${fileName.replace(/\.(jpe?g|png)$/i, '')}.webp`;
+  return `${getWebpOutputBaseName(fileName)}.webp`;
+}
+
+export function getDownloadOutputName(outputName: string, sourceFileName: string): string {
+  const outputBaseName = outputName.replace(/\.webp$/i, '');
+
+  return outputBaseName
+    ? `${outputBaseName}.webp`
+    : getWebpOutputName(sourceFileName);
+}
+
+function getUniqueArchiveEntryName(fileName: string, usedFileNames: Set<string>): string {
+  if (!usedFileNames.has(fileName)) {
+    return fileName;
+  }
+
+  const extensionIndex = fileName.lastIndexOf('.');
+  const baseName = extensionIndex > 0
+    ? fileName.slice(0, extensionIndex)
+    : fileName;
+  const extension = extensionIndex > 0
+    ? fileName.slice(extensionIndex)
+    : '';
+  let duplicateIndex = 2;
+  let nextFileName = `${baseName} (${duplicateIndex})${extension}`;
+
+  while (usedFileNames.has(nextFileName)) {
+    duplicateIndex += 1;
+    nextFileName = `${baseName} (${duplicateIndex})${extension}`;
+  }
+
+  return nextFileName;
+}
+
+export async function createWebpArchive(entries: WebpArchiveEntry[]): Promise<Blob> {
+  const zip = new JSZip();
+  const usedFileNames = new Set<string>();
+
+  entries.forEach((entry) => {
+    const archiveEntryName = getUniqueArchiveEntryName(entry.outputName, usedFileNames);
+
+    usedFileNames.add(archiveEntryName);
+    zip.file(archiveEntryName, entry.outputBlob);
+  });
+
+  return zip.generateAsync({ type: 'blob' });
 }
 
 export function formatFileSize(bytes: number): string {

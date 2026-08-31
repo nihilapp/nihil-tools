@@ -8,7 +8,7 @@ import UiPanel from '~/components/ui/UiPanel.vue';
 import UiPanelDivider from '~/components/ui/UiPanelDivider.vue';
 import { defaultImageWebpQuality } from '~/data/image-webp-converter.data';
 import type { ImageWebpConversionItem } from '~/data/image-webp-converter.types';
-import { convertImageFileToWebp, formatFileSize, getSavedPercent, getWebpOutputName, isConvertibleImageFile } from '~/utils/image-webp-converter';
+import { convertImageFileToWebp, createWebpArchive, formatFileSize, getDownloadOutputName, getSavedPercent, getWebpOutputBaseName, isConvertibleImageFile } from '~/utils/image-webp-converter';
 import { cn } from '~/utils/cn';
 
 const cssVariants = cva([
@@ -25,6 +25,7 @@ const isDragging = ref(false);
 const items = ref<ImageWebpConversionItem[]>([
 ]);
 const quality = ref(defaultImageWebpQuality);
+const isCreatingArchive = ref(false);
 
 const completedItems = computed(() => items.value.filter((item) => item.status === 'done'));
 const convertibleCount = computed(() => items.value.filter((item) => item.status === 'pending' || item.status === 'error').length);
@@ -57,7 +58,7 @@ function onAddFiles(fileList: FileList | File[]) {
       errorMessage: null,
       id: createItemId(),
       outputBlob: null,
-      outputName: getWebpOutputName(sourceFile.name),
+      outputName: getWebpOutputBaseName(sourceFile.name),
       outputUrl: null,
       sourceFile,
       sourceUrl: URL.createObjectURL(sourceFile),
@@ -132,12 +133,36 @@ function onDownloadItem(item: ImageWebpConversionItem) {
   const anchor = document.createElement('a');
 
   anchor.href = item.outputUrl;
-  anchor.download = item.outputName;
+  anchor.download = getDownloadOutputName(item.outputName, item.sourceFile.name);
   anchor.click();
 }
 
-function onDownloadAll() {
-  completedItems.value.forEach(onDownloadItem);
+async function onDownloadAll() {
+  isCreatingArchive.value = true;
+
+  try {
+    const archive = await createWebpArchive(
+      completedItems.value.flatMap((item) => item.outputBlob
+        ? [
+          {
+            outputBlob: item.outputBlob,
+            outputName: getDownloadOutputName(item.outputName, item.sourceFile.name),
+          },
+        ]
+        : [
+        ]),
+    );
+    const archiveUrl = URL.createObjectURL(archive);
+    const anchor = document.createElement('a');
+
+    anchor.href = archiveUrl;
+    anchor.download = 'webp-images.zip';
+    anchor.click();
+    window.setTimeout(() => URL.revokeObjectURL(archiveUrl));
+  }
+  finally {
+    isCreatingArchive.value = false;
+  }
 }
 
 function onRemoveItem(item: ImageWebpConversionItem) {
@@ -248,6 +273,10 @@ onBeforeUnmount(() => {
             <dd class="mt-1 font-700 text-ink">{{ formatFileSize(totalSourceSize) }}</dd>
           </div>
           <div class="rounded-2 bg-canvas-soft p-2">
+            <dt class="text-ink-muted">변환 후</dt>
+            <dd class="mt-1 font-700 text-ink">{{ formatFileSize(totalOutputSize) }}</dd>
+          </div>
+          <div class="rounded-2 bg-canvas-soft p-2">
             <dt class="text-ink-muted">절감</dt>
             <dd class="mt-1 font-700 text-ink">{{ totalSavedPercent }}%</dd>
           </div>
@@ -263,8 +292,9 @@ onBeforeUnmount(() => {
         <UiButton
           v-if="completedItems.length > 0"
           class="mt-2 w-full"
+          :disabled="isCreatingArchive"
           @click="onDownloadAll">
-          완료 파일 모두 다운로드
+          {{ isCreatingArchive ? '압축 중...' : '완료 파일 ZIP 다운로드' }}
         </UiButton>
         <UiButton
           v-if="hasItems"
@@ -306,9 +336,17 @@ onBeforeUnmount(() => {
             :alt="item.sourceFile.name"
             class="size-12 rounded-2 border border-hairline object-contain">
           <div class="min-w-0 flex-1">
-            <p class="truncate text-sm font-700 text-ink">
-              {{ item.sourceFile.name }}
-            </p>
+            <div class="flex min-w-0 items-center gap-2">
+              <p class="min-w-0 flex-1 truncate text-sm font-700 text-ink">
+                {{ item.sourceFile.name }}
+              </p>
+              <input
+                v-model="item.outputName"
+                :placeholder="getWebpOutputBaseName(item.sourceFile.name)"
+                type="text"
+                class="w-40 shrink-0 rounded-2 border border-hairline bg-surface px-2 py-1 text-xs text-ink outline-none placeholder:text-ink-muted focus:border-primary"
+                aria-label="다운로드 파일 기본 이름">
+            </div>
             <p class="mt-1 text-xs text-ink-muted">
               {{ formatFileSize(item.sourceFile.size) }}
               <template v-if="item.outputBlob">
