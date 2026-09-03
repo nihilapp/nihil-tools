@@ -54,4 +54,10 @@ export const appListData: AppListItem[] = [
     icon: 'material-symbols:shuffle',
     url: '/random-string-generator',
   },
+  {
+    name: 'UUID 생성기',
+    description: 'UUID 버전과 생성 개수를 지정해 UUID를 생성합니다.',
+    icon: 'material-symbols:fingerprint',
+    url: '/uuid-generator',
+  },
 ];
