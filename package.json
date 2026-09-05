@@ -2,12 +2,17 @@
   "name": "nuxt-template",
   "type": "module",
   "private": true,
+  "packageManager": "pnpm@9.15.4",
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
     "dev:reset": "powershell -NoProfile -ExecutionPolicy Bypass -Command \"$paths = @('.nuxt', 'node_modules\\.cache\\vite', 'node_modules\\.cache\\nuxt'); $paths | Where-Object { Test-Path -LiteralPath $_ } | ForEach-Object { Remove-Item -LiteralPath $_ -Recurse -Force }\" && pnpm dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
+    "start": "node .output/server/index.mjs",
     "postinstall": "nuxt prepare",
     "lint": "eslint app server test nuxt.config.ts drizzle.config.ts eslint.config.mjs",
     "test": "vitest run"
