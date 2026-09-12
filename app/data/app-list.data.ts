@@ -60,4 +60,10 @@ export const appListData: AppListItem[] = [
     icon: 'material-symbols:fingerprint',
     url: '/uuid-generator',
   },
+  {
+    name: '글자 수 체크',
+    description: '공백 포함·미포함 글자 수를 실시간으로 확인합니다.',
+    icon: 'material-symbols:format-letter-spacing',
+    url: '/character-counter',
+  },
 ];
