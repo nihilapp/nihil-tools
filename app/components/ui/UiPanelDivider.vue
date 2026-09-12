@@ -13,6 +13,7 @@ const props = withDefaults(defineProps<{
   class: '',
   direction: 'row',
   gap: 'md',
+  width: 1,
 });
 
 const cssVariants = cva(

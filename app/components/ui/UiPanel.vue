@@ -19,6 +19,7 @@ const props = withDefaults(defineProps<{
   class: '',
   padding: 'md',
   role: 'div',
+  width: 1,
 });
 
 const cssVariants = cva(

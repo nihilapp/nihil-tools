@@ -13,6 +13,8 @@ const props = withDefaults(defineProps<{
   rows?: number
 }>(), {
   class: '',
+  error: '',
+  label: '',
   modelValue: '',
   placeholder: '',
   rows: 4,

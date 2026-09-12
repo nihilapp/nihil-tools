@@ -27,35 +27,105 @@ const buttonVariants = [
 ] as const;
 
 const navigationItems = [
-  { href: '#tokens', label: '토큰' },
-  { href: '#buttons', label: '버튼' },
-  { href: '#inputs', label: '입력' },
-  { href: '#choices', label: '선택' },
-  { href: '#feedback', label: '피드백' },
-  { href: '#layout', label: '레이아웃' },
+  {
+    href: '#tokens',
+    label: '토큰',
+  },
+  {
+    href: '#buttons',
+    label: '버튼',
+  },
+  {
+    href: '#inputs',
+    label: '입력',
+  },
+  {
+    href: '#choices',
+    label: '선택',
+  },
+  {
+    href: '#feedback',
+    label: '피드백',
+  },
+  {
+    href: '#layout',
+    label: '레이아웃',
+  },
 ];
 
 const selectOptions = [
-  { label: '기본 선택지', value: 'default' },
-  { label: '다른 선택지', value: 'alternative' },
-  { disabled: true, label: '비활성 선택지', value: 'disabled' },
+  {
+    label: '기본 선택지',
+    value: 'default',
+  },
+  {
+    label: '다른 선택지',
+    value: 'alternative',
+  },
+  {
+    disabled: true,
+    label: '비활성 선택지',
+    value: 'disabled',
+  },
 ];
 
 const radioOptions = [
-  { label: '여유 있게', value: 'comfortable' },
-  { label: '조밀하게', value: 'compact' },
-  { disabled: true, label: '사용 불가', value: 'unavailable' },
+  {
+    label: '여유 있게',
+    value: 'comfortable',
+  },
+  {
+    label: '조밀하게',
+    value: 'compact',
+  },
+  {
+    disabled: true,
+    label: '사용 불가',
+    value: 'unavailable',
+  },
 ];
 
 const tokenItems = [
-  { class: 'bg-canvas', label: 'Canvas', value: 'canvas' },
-  { class: 'bg-canvas-soft', label: 'Canvas soft', value: 'canvas-soft' },
-  { class: 'bg-surface', label: 'Surface', value: 'surface' },
-  { class: 'bg-ink', label: 'Ink', value: 'ink' },
-  { class: 'bg-ink-muted', label: 'Ink muted', value: 'ink-muted' },
-  { class: 'bg-hairline', label: 'Hairline', value: 'hairline' },
-  { class: 'bg-primary', label: 'Primary', value: 'primary' },
-  { class: 'bg-danger', label: 'Danger', value: 'danger' },
+  {
+    class: 'bg-canvas',
+    label: 'Canvas',
+    value: 'canvas',
+  },
+  {
+    class: 'bg-canvas-soft',
+    label: 'Canvas soft',
+    value: 'canvas-soft',
+  },
+  {
+    class: 'bg-surface',
+    label: 'Surface',
+    value: 'surface',
+  },
+  {
+    class: 'bg-ink',
+    label: 'Ink',
+    value: 'ink',
+  },
+  {
+    class: 'bg-ink-muted',
+    label: 'Ink muted',
+    value: 'ink-muted',
+  },
+  {
+    class: 'bg-hairline',
+    label: 'Hairline',
+    value: 'hairline',
+  },
+  {
+    class: 'bg-primary',
+    label: 'Primary',
+    value: 'primary',
+  },
+  {
+    class: 'bg-danger',
+    label: 'Danger',
+    value: 'danger',
+  },
 ];
 </script>
 
